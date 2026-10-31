@@ -7,3 +7,4 @@
     { "source": "/v1/status", "destination": "/api/index" }
   ]
 }
+

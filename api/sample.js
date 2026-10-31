@@ -29,3 +29,4 @@ module.exports = async (req, res) => {
     data: sample
   }, null, 2));
 };
+

@@ -5,20 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ExecDossier API — Executive Psychographic Profiling & Cold-Pitch Intelligence</title>
   <meta name="description" content="The Anti-Scraper. Turn raw job titles and company names into high-converting executive dossiers, psychographic buying triggers, and 3 hyper-personalized cold outreach icebreakers.">
+  <link rel="icon" type="image/png" href="/logo.png">
   <style>
     :root {
-      --bg: #06090e;
-      --bg-surface: #0c1119;
-      --bg-card: rgba(16, 23, 34, 0.75);
+      --bg: #070a0f;
+      --bg-surface: #0e141d;
+      --bg-card: rgba(18, 24, 34, 0.82);
       --border: rgba(255, 255, 255, 0.08);
-      --border-accent: rgba(16, 185, 129, 0.35);
+      --border-accent: rgba(241, 90, 36, 0.35);
+      --orange: #f15a24;
+      --orange-glow: rgba(241, 90, 36, 0.35);
+      --gold: #f59e0b;
+      --gold-glow: rgba(245, 158, 11, 0.25);
+      --teal: #059669;
       --emerald: #10b981;
       --emerald-glow: rgba(16, 185, 129, 0.25);
       --cyan: #00f0ff;
       --cyan-glow: rgba(0, 240, 255, 0.2);
       --rose: #f43f5e;
-      --amber: #f59e0b;
-      --purple: #a855f7;
+      --cream: #fef6e4;
       --text: #f8fafc;
       --text-muted: #94a3b8;
       --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
@@ -27,7 +32,11 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background: radial-gradient(circle at 10% 10%, #0d1a24 0%, var(--bg) 65%);
+      background: 
+        radial-gradient(circle at 10% 12%, rgba(241, 90, 36, 0.16) 0%, transparent 45%),
+        radial-gradient(circle at 90% 20%, rgba(5, 150, 105, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 50% 85%, rgba(245, 158, 11, 0.08) 0%, transparent 60%),
+        var(--bg);
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       min-height: 100vh;
@@ -42,7 +51,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(6, 9, 14, 0.85);
+      background: rgba(7, 10, 15, 0.88);
       backdrop-filter: blur(14px);
       position: sticky;
       top: 0;
@@ -57,33 +66,33 @@
       color: var(--text);
     }
 
-    .brand-logo-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 9px;
-      background: linear-gradient(135deg, #10b981, #0284c7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 900;
-      font-size: 1.1rem;
-      color: #06090e;
-      box-shadow: 0 0 16px var(--emerald-glow);
+    .brand-logo-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      object-fit: cover;
+      box-shadow: 0 4px 14px var(--orange-glow);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: transform 0.2s ease;
+    }
+
+    .brand-logo-img:hover {
+      transform: scale(1.06);
     }
 
     .brand-title {
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       font-weight: 800;
       letter-spacing: -0.02em;
     }
 
     .brand-badge {
       font-size: 0.68rem;
-      padding: 0.2rem 0.55rem;
+      padding: 0.2rem 0.6rem;
       border-radius: 999px;
-      background: rgba(16, 185, 129, 0.15);
-      color: var(--emerald);
-      border: 1px solid rgba(16, 185, 129, 0.35);
+      background: rgba(241, 90, 36, 0.16);
+      color: #fb923c;
+      border: 1px solid rgba(241, 90, 36, 0.35);
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -129,17 +138,32 @@
       transform: translateY(-1px);
     }
 
+    .btn-primary {
+      background: linear-gradient(135deg, #f15a24, #ea580c);
+      color: #ffffff;
+      border-color: #f15a24;
+      box-shadow: 0 4px 18px var(--orange-glow);
+      font-weight: 700;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #fb923c, #f15a24);
+      box-shadow: 0 6px 26px rgba(241, 90, 36, 0.55);
+      color: #ffffff;
+    }
+
     .btn-emerald {
-      background: var(--emerald);
-      color: #06090e;
-      border-color: var(--emerald);
-      box-shadow: 0 4px 18px var(--emerald-glow);
+      background: linear-gradient(135deg, #f15a24, #ea580c);
+      color: #ffffff;
+      border-color: #f15a24;
+      box-shadow: 0 4px 18px var(--orange-glow);
       font-weight: 700;
     }
 
     .btn-emerald:hover {
-      background: #34d399;
-      box-shadow: 0 6px 24px rgba(16, 185, 129, 0.5);
+      background: linear-gradient(135deg, #fb923c, #f15a24);
+      box-shadow: 0 6px 26px rgba(241, 90, 36, 0.55);
+      color: #ffffff;
     }
 
     /* Container */
@@ -151,19 +175,40 @@
 
     /* Hero */
     .hero {
-      padding: 4.5rem 0 3rem;
+      padding: 3.5rem 0 3rem;
       text-align: center;
+    }
+
+    .hero-brand-showcase {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-logo-img {
+      width: 110px;
+      height: 110px;
+      border-radius: 26px;
+      object-fit: cover;
+      box-shadow: 0 12px 35px rgba(241, 90, 36, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.15);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .hero-logo-img:hover {
+      transform: scale(1.06) rotate(-2deg);
+      box-shadow: 0 18px 45px rgba(241, 90, 36, 0.65), 0 0 0 2px rgba(241, 90, 36, 0.5);
     }
 
     .hero-eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.35rem 0.9rem;
+      padding: 0.35rem 0.95rem;
       border-radius: 999px;
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      color: var(--emerald);
+      background: rgba(241, 90, 36, 0.12);
+      border: 1px solid rgba(241, 90, 36, 0.35);
+      color: #fb923c;
       font-size: 0.8rem;
       font-weight: 700;
       text-transform: uppercase;
@@ -180,7 +225,7 @@
     }
 
     .hero-gradient {
-      background: linear-gradient(135deg, #ffffff 30%, #34d399 75%, #00f0ff 100%);
+      background: linear-gradient(135deg, #ffffff 25%, #fb923c 65%, #34d399 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -635,7 +680,7 @@
   <!-- Navigation -->
   <header>
     <a href="#" class="brand-wrap">
-      <div class="brand-logo-icon">⚡</div>
+      <img src="/logo.png" alt="ExecDossier Logo" class="brand-logo-img">
       <span class="brand-title">ExecDossier API</span>
       <span class="brand-badge">Production v1.0</span>
     </a>
@@ -643,7 +688,7 @@
       <a href="#why">Why Anti-Scraper</a>
       <a href="#sandbox">Live Sandbox</a>
       <a href="#docs">Developer Instructions</a>
-      <a href="https://rapidapi.com" target="_blank" class="btn btn-emerald">⚡ Get API Key (RapidAPI)</a>
+      <a href="https://rapidapi.com" target="_blank" class="btn btn-primary">⚡ Get API Key (RapidAPI)</a>
     </nav>
   </header>
 
@@ -651,6 +696,9 @@
 
     <!-- Hero Section -->
     <section class="hero">
+      <div class="hero-brand-showcase">
+        <img src="/logo.png" alt="ExecDossier API Logo" class="hero-logo-img">
+      </div>
       <div class="hero-eyebrow">
         <span>⚡</span> The Anti-Scraper · Executive Cold-Pitch Intelligence Engine
       </div>
@@ -662,9 +710,9 @@
         Stop dumping 50 lines of useless college history that nobody reads. <strong>ExecDossier</strong> analyzes decision psychology, quarterly bottlenecks, fatal buzzwords to avoid, and generates <strong>3 hyper-personalized cold email icebreakers</strong> ready for Instantly, Smartlead, and Apollo.
       </p>
       <div class="hero-cta">
-        <a href="#sandbox" class="btn btn-emerald">⚡ Try Live Sandbox</a>
+        <a href="#sandbox" class="btn btn-primary">⚡ Try Live Sandbox</a>
         <a href="#docs" class="btn">📖 Developer Instructions</a>
-        <a href="https://rapidapi.com" target="_blank" class="btn" style="border-color: #0284c7; color: #38bdf8;">RapidAPI Marketplace</a>
+        <a href="https://rapidapi.com" target="_blank" class="btn" style="border-color: rgba(241, 90, 36, 0.4); color: #fb923c;">RapidAPI Marketplace</a>
       </div>
     </section>
 
@@ -893,16 +941,20 @@ for hook in icebreakers:
   <!-- Footer -->
   <footer>
     <div class="container">
+      <div style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 1.25rem;">
+        <img src="/logo.png" alt="ExecDossier" style="width: 34px; height: 34px; border-radius: 9px; box-shadow: 0 4px 12px rgba(241, 90, 36, 0.45); border: 1px solid rgba(255, 255, 255, 0.1);">
+        <strong style="font-size: 1.15rem; letter-spacing: -0.01em;">ExecDossier API</strong>
+      </div>
       <div class="footer-links">
         <a href="#why">Why Anti-Scraper</a>
         <a href="#sandbox">Playground</a>
         <a href="#docs">Developer Instructions</a>
         <a href="https://rapidapi.com" target="_blank">RapidAPI Marketplace</a>
       </div>
-      <p style="margin-bottom: 0.4rem;">
-        <strong>ExecDossier API</strong> · Executive Psychographic Profiling & Cold-Pitch Intelligence
+      <p style="margin-bottom: 0.4rem; color: var(--text-muted);">
+        Executive Psychographic Profiling & Cold-Pitch Intelligence
       </p>
-      <p style="font-size: 0.78rem; color: rgba(255, 255, 255, 0.4);">
+      <p style="font-size: 0.78rem; color: rgba(255, 255, 255, 0.35);">
         Turn raw titles into revenue. Zero scraping friction. Sub-50ms execution.
       </p>
     </div>
@@ -1028,3 +1080,4 @@ for hook in icebreakers:
 
 </body>
 </html>
+

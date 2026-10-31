@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/v1/dossier/analyze", "destination": "/api/analyze" },
+    { "source": "/v1/pitch/icebreaker", "destination": "/api/icebreaker" },
+    { "source": "/v1/dossier/sample", "destination": "/api/sample" },
+    { "source": "/v1/status", "destination": "/api/index" }
+  ]
+}

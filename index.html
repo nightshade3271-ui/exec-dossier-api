@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ExecDossier API — Executive Psychographic Profiling & Cold-Pitch Intelligence</title>
+  <meta name="description" content="The Anti-Scraper. Turn raw job titles and company names into high-converting executive dossiers, psychographic buying triggers, and 3 hyper-personalized cold outreach icebreakers.">
+  <style>
+    :root {
+      --bg: #06090e;
+      --bg-surface: #0c1119;
+      --bg-card: rgba(16, 23, 34, 0.75);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(16, 185, 129, 0.35);
+      --emerald: #10b981;
+      --emerald-glow: rgba(16, 185, 129, 0.25);
+      --cyan: #00f0ff;
+      --cyan-glow: rgba(0, 240, 255, 0.2);
+      --rose: #f43f5e;
+      --amber: #f59e0b;
+      --purple: #a855f7;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: radial-gradient(circle at 10% 10%, #0d1a24 0%, var(--bg) 65%);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Navigation */
+    header {
+      padding: 1.1rem 2rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(6, 9, 14, 0.85);
+      backdrop-filter: blur(14px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .brand-logo-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #10b981, #0284c7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.1rem;
+      color: #06090e;
+      box-shadow: 0 0 16px var(--emerald-glow);
+    }
+
+    .brand-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-badge {
+      font-size: 0.68rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--emerald);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    nav {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.15s ease;
+    }
+
+    nav a:hover {
+      color: var(--text);
+    }
+
+    .btn {
+      padding: 0.55rem 1.15rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.2s ease;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .btn-emerald {
+      background: var(--emerald);
+      color: #06090e;
+      border-color: var(--emerald);
+      box-shadow: 0 4px 18px var(--emerald-glow);
+      font-weight: 700;
+    }
+
+    .btn-emerald:hover {
+      background: #34d399;
+      box-shadow: 0 6px 24px rgba(16, 185, 129, 0.5);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 4.5rem 0 3rem;
+      text-align: center;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: var(--emerald);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4.1rem);
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-gradient {
+      background: linear-gradient(135deg, #ffffff 30%, #34d399 75%, #00f0ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--text-muted);
+      max-width: 760px;
+      margin: 0 auto 2.25rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3.5rem;
+    }
+
+    /* The Anti-Scraper Comparison */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 4.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .compare-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .compare-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      backdrop-filter: blur(14px);
+    }
+
+    .compare-bad {
+      border-color: rgba(244, 63, 94, 0.3);
+      background: rgba(244, 63, 94, 0.03);
+    }
+
+    .compare-good {
+      border-color: rgba(16, 185, 129, 0.35);
+      background: rgba(16, 185, 129, 0.03);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .compare-tag {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.75rem;
+      display: inline-block;
+    }
+
+    .compare-bad .compare-tag { color: var(--rose); }
+    .compare-good .compare-tag { color: var(--emerald); }
+
+    .compare-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .compare-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Sandbox Section */
+    .sandbox-section {
+      padding: 3rem 0 4.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 2.75rem;
+    }
+
+    .section-eyebrow {
+      color: var(--emerald);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.8rem;
+    }
+
+    .sandbox-layout {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 960px) {
+      .sandbox-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .sandbox-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.15rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .form-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.65rem 0.85rem;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--emerald);
+      background: rgba(16, 185, 129, 0.03);
+    }
+
+    .preset-chips {
+      display: flex;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+
+    .chip-btn {
+      padding: 0.35rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .chip-btn:hover {
+      background: rgba(255, 255, 255, 0.09);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Live Output Card */
+    .dossier-output-stage {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      min-height: 480px;
+    }
+
+    .dossier-hero-badge {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding-bottom: 1.25rem;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .archetype-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .tag-pill {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      font-weight: 700;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--emerald);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .dossier-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 600px) {
+      .dossier-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .dossier-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+    }
+
+    .box-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .buzzword-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      margin: 0.2rem 0.2rem 0.2rem 0;
+      font-family: var(--font-mono);
+    }
+
+    .buzz-bad {
+      background: rgba(244, 63, 94, 0.15);
+      color: #fb7185;
+      border: 1px solid rgba(244, 63, 94, 0.3);
+    }
+
+    .buzz-good {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    /* Icebreaker Hooks Cards */
+    .hooks-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hook-card {
+      background: #04060a;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.15rem;
+      position: relative;
+    }
+
+    .hook-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .hook-type {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .copy-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.25rem 0.55rem;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.15s ease;
+    }
+
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+
+    .hook-subject {
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+      color: #94a3b8;
+      margin-bottom: 0.5rem;
+    }
+
+    .hook-body {
+      font-size: 0.88rem;
+      color: #e2e8f0;
+      line-height: 1.5;
+    }
+
+    /* Developer Docs */
+    .docs-section {
+      padding: 3.5rem 0 5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .endpoint-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .endpoint-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .endpoint-badge-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .method-badge {
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+    }
+
+    .method-post {
+      background: #065f46;
+      color: #a7f3d0;
+    }
+
+    .endpoint-path {
+      font-family: var(--font-mono);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .code-tabs-wrapper {
+      background: #030508;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 1.25rem;
+    }
+
+    .code-tab-nav {
+      display: flex;
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      padding: 0.65rem 1.2rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .tab-btn.active {
+      color: var(--emerald);
+      border-bottom-color: var(--emerald);
+      background: rgba(16, 185, 129, 0.04);
+    }
+
+    .code-tab-content {
+      padding: 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      line-height: 1.55;
+      color: #cbd5e1;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      background: var(--bg);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer-links a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      color: var(--emerald);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <a href="#" class="brand-wrap">
+      <div class="brand-logo-icon">⚡</div>
+      <span class="brand-title">ExecDossier API</span>
+      <span class="brand-badge">Production v1.0</span>
+    </a>
+    <nav>
+      <a href="#why">Why Anti-Scraper</a>
+      <a href="#sandbox">Live Sandbox</a>
+      <a href="#docs">Developer Instructions</a>
+      <a href="https://rapidapi.com" target="_blank" class="btn btn-emerald">⚡ Get API Key (RapidAPI)</a>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-eyebrow">
+        <span>⚡</span> The Anti-Scraper · Executive Cold-Pitch Intelligence Engine
+      </div>
+      <h1>
+        Turn Raw Job Titles Into <br>
+        <span class="hero-gradient">High-Converting Executive Dossiers</span>
+      </h1>
+      <p>
+        Stop dumping 50 lines of useless college history that nobody reads. <strong>ExecDossier</strong> analyzes decision psychology, quarterly bottlenecks, fatal buzzwords to avoid, and generates <strong>3 hyper-personalized cold email icebreakers</strong> ready for Instantly, Smartlead, and Apollo.
+      </p>
+      <div class="hero-cta">
+        <a href="#sandbox" class="btn btn-emerald">⚡ Try Live Sandbox</a>
+        <a href="#docs" class="btn">📖 Developer Instructions</a>
+        <a href="https://rapidapi.com" target="_blank" class="btn" style="border-color: #0284c7; color: #38bdf8;">RapidAPI Marketplace</a>
+      </div>
+    </section>
+
+    <!-- Why The Anti-Scraper -->
+    <section id="why" class="compare-grid">
+      <div class="compare-card compare-bad">
+        <span class="compare-tag">❌ Traditional LinkedIn Scrapers</span>
+        <h3 class="compare-title">The Raw Resume Dump</h3>
+        <ul class="compare-list">
+          <li>• Dumps 500 lines of messy JSON work & college history.</li>
+          <li>• Fragile scraping sessions that get blocked by proxy bans.</li>
+          <li>• Leaves reps staring at a screen wondering: <em>"How do I pitch them?"</em></li>
+          <li>• Results in generic cold emails with 0.8% reply rates.</li>
+        </ul>
+      </div>
+
+      <div class="compare-card compare-good">
+        <span class="compare-tag">✅ ExecDossier API</span>
+        <h3 class="compare-title">Psychographic Actionable Intelligence</h3>
+        <ul class="compare-list">
+          <li>• Exact <strong>Decision Archetype</strong> (e.g. <em>The Fiscal Sentinel</em>, <em>Velocity Architect</em>).</li>
+          <li>• <strong>Lethal Buzzwords</strong> that trigger immediate spam deletion.</li>
+          <li>• <strong>3 Ready-to-Send Cold Email Hooks</strong> tuned to their title.</li>
+          <li>• <strong>Objection Counter-Strike</strong>: The exact 1-sentence reframe.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Interactive Live Sandbox -->
+    <section id="sandbox" class="sandbox-section">
+      <div class="section-header">
+        <div class="section-eyebrow">Interactive Live Playground</div>
+        <h2 class="section-title">Profile Any Executive in 50ms</h2>
+        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">Select a preset or enter any job title and company to watch the psychological dossier and cold outreach hooks generate in real time.</p>
+      </div>
+
+      <div class="sandbox-layout">
+        <!-- Input Form -->
+        <div class="sandbox-panel">
+          <label class="form-label" style="margin-bottom: 0.6rem;">Quick Presets</label>
+          <div class="preset-chips">
+            <button class="chip-btn" onclick="applyPreset('Sarah Chen', 'VP of Engineering', 'FintechScale', 'Financial Technology')">VP Engineering</button>
+            <button class="chip-btn" onclick="applyPreset('David Miller', 'Chief Financial Officer', 'Apex Logistics', 'Supply Chain')">CFO</button>
+            <button class="chip-btn" onclick="applyPreset('Elena Rostova', 'VP of Sales', 'CloudFlow Systems', 'B2B Enterprise SaaS')">VP Sales</button>
+            <button class="chip-btn" onclick="applyPreset('Marcus Vance', 'Founder & CEO', 'Nexus Robotics', 'DeepTech & Hardware')">Founder/CEO</button>
+            <button class="chip-btn" onclick="applyPreset('Jessica Taylor', 'Chief People Officer', 'HealthPulse', 'Healthcare Tech')">Head of People</button>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Executive Name</label>
+            <input type="text" id="targetName" class="form-input" value="Sarah Chen">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Job Title / Role</label>
+            <input type="text" id="targetTitle" class="form-input" value="VP of Engineering">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Company Name</label>
+            <input type="text" id="targetCompany" class="form-input" value="FintechScale Systems">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Industry</label>
+            <input type="text" id="targetIndustry" class="form-input" value="Financial Technology SaaS">
+          </div>
+
+          <button id="btnAnalyze" class="btn btn-emerald" style="width: 100%; justify-content: center; margin-top: 0.5rem;">
+            ⚡ Generate Executive Dossier
+          </button>
+        </div>
+
+        <!-- Live Output Stage -->
+        <div class="dossier-output-stage" id="dossierStage">
+          <div class="dossier-hero-badge">
+            <div>
+              <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;" id="outTargetSub">VP of Engineering at FintechScale Systems</div>
+              <h3 class="archetype-title" id="outArchetype">The System Stability & Velocity Architect</h3>
+            </div>
+            <span class="tag-pill" id="outAuthority">Primary Technical Budget Owner</span>
+          </div>
+
+          <div class="dossier-grid">
+            <div class="dossier-box">
+              <div class="box-title">Attention Span & Framework</div>
+              <p style="font-size: 0.85rem; color: #cbd5e1;" id="outAttention">Under 40 seconds. Metrics-driven, allergic to buzzwords, hyper-focused on tech debt, reliability, and developer bandwidth.</p>
+            </div>
+            <div class="dossier-box">
+              <div class="box-title">Fatal Buzzwords To Avoid</div>
+              <div id="outBuzzwords">
+                <span class="buzzword-badge buzz-bad">game-changing AI</span>
+                <span class="buzzword-badge buzz-bad">synergy</span>
+                <span class="buzzword-badge buzz-bad">turnkey revolution</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="box-title" style="margin-bottom: 0.6rem;">3 Ready-to-Send Cold Email Icebreakers</div>
+          <div class="hooks-container" id="outHooks">
+            <!-- Dynamic Hooks Will Be Injected Here -->
+          </div>
+
+          <div class="dossier-box" style="border-color: rgba(245, 158, 11, 0.3); background: rgba(245, 158, 11, 0.02);">
+            <div class="box-title" style="color: var(--amber);">Anticipated Objection & Battle-Tested Reframe</div>
+            <div style="font-size: 0.85rem; margin-bottom: 0.4rem; color: #f87171;"><strong>Pushback:</strong> <span id="outObjection">"Our engineering roadmap is locked for Q3/Q4 and we prefer building in-house."</span></div>
+            <div style="font-size: 0.85rem; color: #34d399;"><strong>Counter-Strike:</strong> <span id="outReframe">"Totally get that—most teams we work with felt the exact same way until they saw that building this in-house diverted 2 senior engineers for 5 months. Worth seeing the ROI comparison?"</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Developer Instructions Section -->
+    <section id="docs" class="docs-section">
+      <div class="section-header">
+        <div class="section-eyebrow">Developer Instructions</div>
+        <h2 class="section-title">Simple, Scalable REST Integration</h2>
+        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">Connect ExecDossier to your outbound sales automations, CRM enrichment workflows, or cold email tools in minutes.</p>
+      </div>
+
+      <!-- Endpoint 1: POST /v1/dossier/analyze -->
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-badge-wrap">
+            <span class="method-badge method-post">POST</span>
+            <span class="endpoint-path">/v1/dossier/analyze</span>
+          </div>
+          <span style="font-size: 0.78rem; font-family: var(--font-mono); color: var(--emerald);">Returns: application/json</span>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.92rem;">
+          The full psychographic dossier endpoint. Analyzes role taxonomy, quarterly headaches, attention thresholds, buzzword filters, 3 tailored cold hooks, and objection strategies.
+        </p>
+
+        <div class="code-tabs-wrapper">
+          <div class="code-tab-nav">
+            <button class="tab-btn active" data-tab="analyze-curl">cURL</button>
+            <button class="tab-btn" data-tab="analyze-js">JavaScript (Fetch)</button>
+            <button class="tab-btn" data-tab="analyze-python">Python</button>
+          </div>
+
+          <div id="analyze-curl" class="code-tab-content">curl -X POST "https://exec-dossier-api.vercel.app/v1/dossier/analyze" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Sarah Chen",
+    "title": "VP of Engineering",
+    "company": "FintechScale Systems",
+    "industry": "Financial Technology SaaS"
+  }'</div>
+
+          <div id="analyze-js" class="code-tab-content" style="display: none;">const response = await fetch('https://exec-dossier-api.vercel.app/v1/dossier/analyze', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    name: 'Sarah Chen',
+    title: 'VP of Engineering',
+    company: 'FintechScale Systems',
+    industry: 'Financial Technology SaaS'
+  })
+});
+
+const { data } = await response.json();
+console.log('Archetype:', data.executive_summary.archetype);
+console.log('Top Icebreaker:', data.cold_outreach_intelligence.icebreakers[0].body_text);</div>
+
+          <div id="analyze-python" class="code-tab-content" style="display: none;">import requests
+
+url = "https://exec-dossier-api.vercel.app/v1/dossier/analyze"
+payload = {
+    "name": "Sarah Chen",
+    "title": "VP of Engineering",
+    "company": "FintechScale Systems",
+    "industry": "Financial Technology SaaS"
+}
+
+res = requests.post(url, json=payload).json()
+icebreakers = res["data"]["cold_outreach_intelligence"]["icebreakers"]
+for hook in icebreakers:
+    print(f"[{hook['angle']}]: {hook['body_text']}\n")</div>
+        </div>
+      </div>
+
+      <!-- Endpoint 2: POST /v1/pitch/icebreaker -->
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-badge-wrap">
+            <span class="method-badge method-post">POST</span>
+            <span class="endpoint-path">/v1/pitch/icebreaker</span>
+          </div>
+          <span style="font-size: 0.78rem; font-family: var(--font-mono); color: var(--cyan);">Optimized for Instantly / Smartlead / Apollo</span>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.92rem;">
+          High-velocity tag generator. Designed to run as a webhook in cold email campaign tools to inject dynamic personalization variables directly into CSV sequence columns.
+        </p>
+
+        <div class="code-tabs-wrapper">
+          <div class="code-tab-nav">
+            <button class="tab-btn active" data-tab="tag-curl">cURL</button>
+            <button class="tab-btn" data-tab="tag-response">Sample Response</button>
+          </div>
+
+          <div id="tag-curl" class="code-tab-content">curl -X POST "https://exec-dossier-api.vercel.app/v1/pitch/icebreaker" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "David Miller",
+    "title": "Chief Financial Officer",
+    "company": "Apex Logistics",
+    "industry": "Supply Chain & Freight"
+  }'</div>
+
+          <div id="tag-response" class="code-tab-content" style="display: none;">{
+  "success": true,
+  "tags": {
+    "icebreaker_pain_point": "Hi David, noticed your work leading Chief Financial Officer at Apex Logistics...",
+    "icebreaker_peer_benchmark": "Hi David, congrats on the momentum at Apex Logistics. Given the recent shift across Supply Chain...",
+    "icebreaker_low_friction": "Hi David, quick question—if there was a way to give your team 8+ hours back weekly with zero migration...",
+    "personalized_ps": "P.S. Love what you and the team are building at Apex Logistics—excited to watch the next phase.",
+    "suggested_subject_line": "quick question re: chief financial officer at Apex Logistics"
+  }
+}</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="#why">Why Anti-Scraper</a>
+        <a href="#sandbox">Playground</a>
+        <a href="#docs">Developer Instructions</a>
+        <a href="https://rapidapi.com" target="_blank">RapidAPI Marketplace</a>
+      </div>
+      <p style="margin-bottom: 0.4rem;">
+        <strong>ExecDossier API</strong> · Executive Psychographic Profiling & Cold-Pitch Intelligence
+      </p>
+      <p style="font-size: 0.78rem; color: rgba(255, 255, 255, 0.4);">
+        Turn raw titles into revenue. Zero scraping friction. Sub-50ms execution.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Tab Switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const wrapper = btn.closest('.code-tabs-wrapper');
+        wrapper.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        wrapper.querySelectorAll('.code-tab-content').forEach(c => c.style.display = 'none');
+        btn.classList.add('active');
+        const target = document.getElementById(btn.getAttribute('data-tab'));
+        if (target) target.style.display = 'block';
+      });
+    });
+
+    // Preset Applicator
+    function applyPreset(name, title, company, industry) {
+      document.getElementById('targetName').value = name;
+      document.getElementById('targetTitle').value = title;
+      document.getElementById('targetCompany').value = company;
+      document.getElementById('targetIndustry').value = industry;
+      document.getElementById('btnAnalyze').click();
+    }
+
+    // Copy to clipboard helper
+    function copyText(btn, text) {
+      navigator.clipboard.writeText(text);
+      const original = btn.textContent;
+      btn.textContent = '✓ Copied';
+      setTimeout(() => { btn.textContent = original; }, 1800);
+    }
+
+    // Default Render
+    function renderDossier(data) {
+      const exec = data.executive_summary;
+      const psych = data.psychographic_profile;
+      const outreach = data.cold_outreach_intelligence;
+      const obj = data.objection_strategy;
+
+      document.getElementById('outTargetSub').textContent = `${exec.target_title} at ${exec.target_company}`;
+      document.getElementById('outArchetype').textContent = exec.archetype;
+      document.getElementById('outAuthority').textContent = exec.budget_authority_role;
+      document.getElementById('outAttention').textContent = `${psych.attention_span}. ${psych.decision_framework}`;
+
+      // Buzzwords
+      const buzzDiv = document.getElementById('outBuzzwords');
+      buzzDiv.innerHTML = '';
+      psych.pitching_rules.fatal_buzzwords_to_avoid.forEach(w => {
+        const span = document.createElement('span');
+        span.className = 'buzzword-badge buzz-bad';
+        span.textContent = w;
+        buzzDiv.appendChild(span);
+      });
+      psych.pitching_rules.high_resonance_triggers.slice(0, 3).forEach(w => {
+        const span = document.createElement('span');
+        span.className = 'buzzword-badge buzz-good';
+        span.textContent = w;
+        buzzDiv.appendChild(span);
+      });
+
+      // Hooks
+      const hooksContainer = document.getElementById('outHooks');
+      hooksContainer.innerHTML = '';
+      outreach.icebreakers.forEach(h => {
+        const card = document.createElement('div');
+        card.className = 'hook-card';
+        card.innerHTML = `
+          <div class="hook-header">
+            <span class="hook-type">${h.angle}</span>
+            <button class="copy-btn" onclick="copyText(this, \`${h.body_text.replace(/"/g, '&quot;')}\`)">📋 Copy Hook</button>
+          </div>
+          <div class="hook-subject">Subject: ${h.subject_line}</div>
+          <div class="hook-body">${h.body_text}</div>
+        `;
+        hooksContainer.appendChild(card);
+      });
+
+      // Objection
+      document.getElementById('outObjection').textContent = `"${obj.anticipated_pushback}"`;
+      document.getElementById('outReframe').textContent = `"${obj.battle_tested_counter_reframe}"`;
+    }
+
+    // Interactive Analyze Button
+    document.getElementById('btnAnalyze').addEventListener('click', async () => {
+      const btn = document.getElementById('btnAnalyze');
+      btn.textContent = '⏳ Profiling Executive...';
+
+      const payload = {
+        name: document.getElementById('targetName').value,
+        title: document.getElementById('targetTitle').value,
+        company: document.getElementById('targetCompany').value,
+        industry: document.getElementById('targetIndustry').value
+      };
+
+      try {
+        const res = await fetch('/v1/dossier/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const json = await res.json();
+        if (json.data) {
+          renderDossier(json.data);
+        } else {
+          alert('Profiling failed: ' + (json.details || 'Error'));
+        }
+      } catch (err) {
+        alert('Request failed: ' + err.message);
+      } finally {
+        btn.textContent = '⚡ Generate Executive Dossier';
+      }
+    });
+
+    // Run initial demo on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('btnAnalyze').click();
+    });
+  </script>
+
+</body>
+</html>

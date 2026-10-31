@@ -1,0 +1,20 @@
+{
+  "name": "exec-dossier-api",
+  "version": "1.0.0",
+  "description": "ExecDossier API - Executive Psychographic Profiling & Cold-Pitch Intelligence Engine",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "executive-intelligence",
+    "b2b-lead-enrichment",
+    "cold-email",
+    "sales-enablement",
+    "linkedin-intelligence",
+    "icebreaker-generator"
+  ],
+  "author": "Nightshade",
+  "license": "MIT"
+}

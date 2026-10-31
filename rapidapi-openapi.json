@@ -1,0 +1,167 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "ExecDossier API - Executive Psychographic & Cold-Pitch Intelligence",
+    "description": "The Anti-Scraper. Turn raw job titles, LinkedIn profiles, and company names into high-converting psychographic executive dossiers, buying triggers, objection strategies, and 3 hyper-personalized cold outreach icebreakers.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://exec-dossier-api.vercel.app",
+      "description": "Production Vercel Gateway"
+    }
+  ],
+  "paths": {
+    "/v1/dossier/analyze": {
+      "post": {
+        "summary": "Generate Comprehensive Executive Dossier",
+        "description": "Input an executive's title, company, name, and industry. Returns their decision-making archetype, attention span, quarterly bottlenecks, fatal buzzwords to avoid, 3 personalized cold email hooks, and battle-tested objection counter-reframes.",
+        "operationId": "analyzeExecutiveDossier",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalyzeRequest"
+              },
+              "example": {
+                "name": "Sarah Chen",
+                "title": "VP of Engineering",
+                "company": "FintechScale Systems",
+                "industry": "Financial Technology SaaS",
+                "summary": "Scaling core payment infrastructure from 5M to 50M daily transactions. Focused on zero-downtime migrations, developer velocity, and database resilience."
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Full Executive Psychographic Dossier",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/pitch/icebreaker": {
+      "post": {
+        "summary": "Generate Instant Personalization Tags",
+        "description": "High-velocity endpoint designed for cold email sequencers (Apollo, Smartlead, Instantly, Lemlist). Returns ready-to-inject dynamic tags: {{icebreaker_pain_point}}, {{icebreaker_peer_benchmark}}, {{icebreaker_low_friction}}, and {{personalized_ps}}.",
+        "operationId": "generateIcebreakerTags",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IcebreakerRequest"
+              },
+              "example": {
+                "name": "David Miller",
+                "title": "Chief Financial Officer",
+                "company": "Apex Logistics",
+                "industry": "Supply Chain & Freight"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Personalization tags ready for email sequencing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dossier/sample": {
+      "get": {
+        "summary": "Get Benchmark Sample Dossier",
+        "description": "Returns a pre-calculated reference dossier for a VP of Engineering at a High-Growth FinTech company.",
+        "operationId": "getSampleDossier",
+        "responses": {
+          "200": {
+            "description": "Benchmark Executive Dossier",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AnalyzeRequest": {
+        "type": "object",
+        "required": ["title"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Executive's full name",
+            "example": "Sarah Chen"
+          },
+          "title": {
+            "type": "string",
+            "description": "Job title or role (e.g. VP of Engineering, CFO, Head of People, CMO)",
+            "example": "VP of Engineering"
+          },
+          "company": {
+            "type": "string",
+            "description": "Target company name",
+            "example": "FintechScale Systems"
+          },
+          "industry": {
+            "type": "string",
+            "description": "Company industry or vertical",
+            "example": "Financial Technology SaaS"
+          },
+          "summary": {
+            "type": "string",
+            "description": "Optional LinkedIn summary, headline, or bio snippet",
+            "example": "Scaling payment infrastructure across North America."
+          }
+        }
+      },
+      "IcebreakerRequest": {
+        "type": "object",
+        "required": ["title", "company"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Executive's first or full name",
+            "example": "David Miller"
+          },
+          "title": {
+            "type": "string",
+            "description": "Executive job title",
+            "example": "Chief Financial Officer"
+          },
+          "company": {
+            "type": "string",
+            "description": "Company name",
+            "example": "Apex Logistics"
+          },
+          "industry": {
+            "type": "string",
+            "description": "Industry domain",
+            "example": "Supply Chain & Freight"
+          }
+        }
+      }
+    }
+  }
+}

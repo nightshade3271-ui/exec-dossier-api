@@ -26,8 +26,8 @@ const server = http.createServer((req, res) => {
   const rawPath = forwarded || url.pathname;
   const p = rawPath.split('?')[0].toLowerCase();
 
-  // 1. POST /v1/dossier/analyze
-  if ((p === '/v1/dossier/analyze' || p === '/api/analyze' || p.endsWith('/dossier/analyze')) && req.method === 'POST') {
+  // 1. POST /v1/dossier/analyze or /api/sandbox
+  if ((p === '/v1/dossier/analyze' || p === '/api/analyze' || p === '/api/sandbox' || p.endsWith('/dossier/analyze') || p.endsWith('/sandbox')) && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => { body += chunk; });
     req.on('end', () => {

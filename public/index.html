@@ -1053,7 +1053,7 @@ for hook in icebreakers:
       };
 
       try {
-        const res = await fetch('/v1/dossier/analyze', {
+        const res = await fetch('/api/sandbox', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
